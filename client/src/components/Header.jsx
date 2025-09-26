@@ -10,8 +10,19 @@ import {
     NavbarLink,
     NavbarToggle,
 } from 'flowbite-react'
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const links = [
+        { name: "Home", path: "/" },
+        { name: "About", path: "/about" },
+        { name: "Services", path: "/services" },
+        { name: "Statistics", path: "/statistics" },
+    ];
+
     return (
         <Navbar fluid rounded className='border-b-8 border-blue-500 bg-white dark:bg-gray-800'>
             <NavbarBrand href="https://flowbite-react.com">
@@ -37,9 +48,19 @@ const Header = () => {
                 <NavbarToggle />
             </div>
             <NavbarCollapse>
-                <NavbarLink href="#" active>Home</NavbarLink>
-                <NavbarLink href="#">About</NavbarLink>
-                <NavbarLink href="#">Contact</NavbarLink>
+                {links.map((link) => (
+                    <NavbarLink
+                        key={link.path}
+                        href={link.path}
+                        active={location.pathname === link.path}
+                        onClick={(e) => {
+                        e.preventDefault();
+                        navigate(link.path);
+                        }}
+                    >
+                        {link.name}
+                    </NavbarLink>
+                ))}
             </NavbarCollapse>
         </Navbar>
     )

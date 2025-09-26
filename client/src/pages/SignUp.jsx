@@ -58,6 +58,7 @@ const SignUp = () => {
     return (
         <div className="flex flex-col justify-center items-center mt-10">
             <Card className="max-w-md">
+                <h1 className="text-3xl font-bold text-center mb-5">Create your account start playing</h1>
                 <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
                     <div>
                         <div className="mb-2 block">
