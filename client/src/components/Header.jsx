@@ -10,11 +10,16 @@ import {
     NavbarLink,
     NavbarToggle,
 } from 'flowbite-react'
+import axios from 'axios'
 import { useLocation, useNavigate } from "react-router-dom";
+import { signoutSuccess } from '../redux/user/userSlice'
+import { useDispatch } from 'react-redux'
+import { signOutRoute } from '../apiRoutes/routes';
 
 const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     const links = [
         { name: "Home", path: "/" },
@@ -22,6 +27,17 @@ const Header = () => {
         { name: "Services", path: "/services" },
         { name: "Statistics", path: "/statistics" },
     ];
+
+    const handleSignOut = async() => {
+        try {
+            const result = await axios.get(signOutRoute)
+            if (result.status === 200) {
+                dispatch(signoutSuccess())
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
 
     return (
         <Navbar fluid rounded className='border-b-8 border-blue-500 bg-white dark:bg-gray-800'>
@@ -43,7 +59,7 @@ const Header = () => {
                     <DropdownItem>Dashboard</DropdownItem>
                     <DropdownItem>Settings</DropdownItem>
                     <DropdownDivider />
-                    <DropdownItem>Sign out</DropdownItem>
+                    <DropdownItem onClick={handleSignOut}>Sign out</DropdownItem>
                 </Dropdown>
                 <NavbarToggle />
             </div>

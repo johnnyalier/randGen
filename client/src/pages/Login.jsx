@@ -12,6 +12,7 @@ const Login = () => {
         password: '',
     })
     const {loading, error: errorMessage} = useSelector(state => state.user)
+	const [isChecked, setIsChecked] = useState(false);
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -19,6 +20,11 @@ const Login = () => {
     const handleChange = (e) => {
         setFormData({...formData, [e.target.id]: e.target.value })
     }
+
+	const handleCheckboxChange = (event) => {
+		setIsChecked(event.target.checked);
+		console.log('Checkbox is checked:', event.target.checked);
+	};
 
 	const handleSubmit = async (e) => {
         e.preventDefault()
@@ -46,51 +52,59 @@ const Login = () => {
     }
 
   	return (
-    <div className="flex flex-col justify-center items-center mt-10">
-      <Card className="max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-5">Login and have Fun</h1>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="email">Your email</Label>
-            </div>
-            <TextInput id="email" type="email" placeholder="name@flowbite.com" required onChange={handleChange} />
-          </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="password">Your password</Label>
-            </div>
-            <TextInput id="password" type="password" required onChange={handleChange} />
-          </div>
-          <div className="flex items-center gap-2">
-            <Checkbox id="remember" />
-            <Label htmlFor="remember">Remember me</Label>
-          </div>
-          <div className="flex items-center gap-2">
-              <Checkbox id="agree" />
-              <Label htmlFor="agree" className="flex">
-                  I agree with the&nbsp;
-                  <Link href="#" className="text-cyan-600 hover:underline dark:text-cyan-500">
-                      terms and conditions
-                  </Link>
-              </Label>
-          </div>
-          <Button type="submit" disabled={loading}>
-			{loading? (
-				<>
-					<Spinner size='sm' />
-					<span>Loading...</span>
-				</>
-			) : 'Sign In'}
-		  </Button>
-        </form>
-		{errorMessage && (
-			<Alert className='mt-5' color='failure'>
-				{errorMessage}
-			</Alert>
-		)}
-      </Card>
-    </div>
+		<div className="flex flex-col justify-center items-center mt-10">
+			<Card className="max-w-md">
+				<h1 className="text-3xl font-bold text-center mb-5">Login and have Fun</h1>
+				<form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+					<div>
+						<div className="mb-2 block">
+							<Label htmlFor="email">Your email</Label>
+						</div>
+						<TextInput id="email" type="email" placeholder="name@flowbite.com" required onChange={handleChange} />
+					</div>
+					<div>
+						<div className="mb-2 block">
+							<Label htmlFor="password">Your password</Label>
+						</div>
+						<TextInput id="password" type="password" required onChange={handleChange} />
+					</div>
+					<div>
+                        <Label htmlFor="login">
+                            Don&rsquo;t have an account?&nbsp;
+                            <Link to="/signup" className="text-cyan-600 hover:underline dark:text-cyan-500">
+                                Create account
+                            </Link>
+                        </Label>
+                    </div>
+					<div className="flex items-center gap-2">
+						<Checkbox 
+							id="agree" 
+							checked={isChecked}
+							onChange={handleCheckboxChange}
+						/>
+						<Label htmlFor="agree" className="flex">
+							I agree with the&nbsp;
+							<Link href="#" className="text-cyan-600 hover:underline dark:text-cyan-500">
+								terms and conditions
+							</Link>
+						</Label>
+					</div>
+					<Button type="submit" disabled={loading || !isChecked}>
+						{loading? (
+							<>
+								<Spinner size='sm' />
+								<span>Loading...</span>
+							</>
+						) : 'Sign In'}
+					</Button>
+				</form>
+				{errorMessage && (
+					<Alert className='mt-5' color='failure'>
+						{errorMessage}
+					</Alert>
+				)}
+			</Card>
+		</div>
   );
 }
 

@@ -15,11 +15,18 @@ const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState(null)
     const [loading, setLoading] = useState(false)
     const [repeatPassword, setRepeatPassword] = useState('')
+    const [isChecked, setIsChecked] = useState(false);
+
     const navigate = useNavigate()
 
     const handleChange = (e) => {
         setFormData({...formData, [e.target.id]: e.target.value })
     }
+
+    const handleCheckboxChange = (event) => {
+		setIsChecked(event.target.checked);
+		console.log('Checkbox is checked:', event.target.checked);
+	};
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -90,16 +97,28 @@ const SignUp = () => {
                         </div>
                         <TextInput id="repeat-password" type="password" required shadow onChange={(e) => setRepeatPassword(e.target.value)} />
                     </div>
+                    <div>
+                        <Label htmlFor="login">
+                            Already have an account?&nbsp;
+                            <Link to="/login" className="text-cyan-600 hover:underline dark:text-cyan-500">
+                                Go to login page
+                            </Link>
+                        </Label>
+                    </div>
                     <div className="flex items-center gap-2">
-                        <Checkbox id="agree" />
+                        <Checkbox 
+                            id="agree" 
+                            checked={isChecked}
+							onChange={handleCheckboxChange}
+                        />
                         <Label htmlFor="agree" className="flex">
                             I agree with the&nbsp;
-                            <Link href="#" className="text-cyan-600 hover:underline dark:text-cyan-500">
+                            <Link to="#" className="text-cyan-600 hover:underline dark:text-cyan-500">
                                 terms and conditions
                             </Link>
                         </Label>
                     </div>
-                    <Button type="submit" disabled={loading}>
+                    <Button type="submit" disabled={loading || !isChecked}>
                         {loading? (
                             <>
                                 <Spinner size="sm" />
