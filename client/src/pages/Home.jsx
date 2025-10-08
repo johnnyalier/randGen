@@ -62,8 +62,8 @@ const Home = () => {
 	}, []);
     return (
         <div>
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-				<h1 className="text-2xl text-red-500 font-bold mb-4">Random Number Generator</h1>
+            <div className="flex flex-col items-center justify-center">
+				<h1 className="text-2xl font-bold mb-4">Random Number Generator</h1>
 				{!hasJoined && <JoinGame socketId={socketId}/>}
 				{hasJoined && !gamestarted && <Lobby players={players} />}
 				{hasJoined && gamestarted && 

@@ -40,7 +40,7 @@ const Header = () => {
     }
 
     return (
-        <Navbar fluid rounded className='border-b-8 border-blue-500 bg-white dark:bg-gray-800'>
+        <Navbar fluid rounded className='border-b-4 border-gray-300 bg-transparent dark:bg-gray-800'>
             <NavbarBrand href="https://flowbite-react.com">
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">RandGen</span>
             </NavbarBrand>
@@ -70,8 +70,8 @@ const Header = () => {
                         href={link.path}
                         active={location.pathname === link.path}
                         onClick={(e) => {
-                        e.preventDefault();
-                        navigate(link.path);
+                            e.preventDefault();
+                            navigate(link.path);
                         }}
                     >
                         {link.name}
