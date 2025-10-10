@@ -1,5 +1,6 @@
 import { 
     Avatar,
+    Button,
     Dropdown,
     DropdownDivider,
     DropdownHeader,
@@ -13,11 +14,15 @@ import {
 import axios from 'axios'
 import { useLocation, useNavigate } from "react-router-dom";
 import { signoutSuccess } from '../redux/user/userSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { toggleTheme } from '../redux/theme/themeSlice'
 import { signOutRoute } from '../apiRoutes/routes';
+import { FaMoon, FaSun } from'react-icons/fa'
 
 const Header = () => {
     const location = useLocation();
+    const { theme } = useSelector(state => state.theme)
+
     const navigate = useNavigate();
     const dispatch = useDispatch()
 
@@ -40,7 +45,7 @@ const Header = () => {
     }
 
     return (
-        <Navbar fluid rounded className='border-b-4 border-gray-300 bg-transparent dark:bg-gray-800'>
+        <Navbar fluid rounded className='border-b-4 border-gray-300 bg-transparent'>
             <NavbarBrand href="https://flowbite-react.com">
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">RandGen</span>
             </NavbarBrand>
@@ -66,18 +71,23 @@ const Header = () => {
             <NavbarCollapse>
                 {links.map((link) => (
                     <NavbarLink
-                        key={link.path}
-                        href={link.path}
-                        active={location.pathname === link.path}
-                        onClick={(e) => {
+                    key={link.path}
+                    href={link.path}
+                    active={location.pathname === link.path}
+                    onClick={(e) => {
                             e.preventDefault();
                             navigate(link.path);
                         }}
-                    >
+                        >
                         {link.name}
                     </NavbarLink>
                 ))}
             </NavbarCollapse>
+            <div>
+                <Button className='w-12 h-10 hidden sm:inline' color='gray' pill onClick={() => dispatch(toggleTheme())}>
+                    {theme === 'light' ? <FaSun /> : <FaMoon />}
+                </Button>
+            </div>
         </Navbar>
     )
 }
