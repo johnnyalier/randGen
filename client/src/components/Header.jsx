@@ -1,4 +1,4 @@
-import { 
+import {
     Avatar,
     Button,
     Dropdown,
@@ -17,11 +17,12 @@ import { signoutSuccess } from '../redux/user/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleTheme } from '../redux/theme/themeSlice'
 import { signOutRoute } from '../apiRoutes/routes';
-import { FaMoon, FaSun } from'react-icons/fa'
+import { FaMoon, FaSun } from 'react-icons/fa'
 
 const Header = () => {
     const location = useLocation();
     const { theme } = useSelector(state => state.theme)
+    const { currentUser } = useSelector(state => state.user)
 
     const navigate = useNavigate();
     const dispatch = useDispatch()
@@ -33,7 +34,7 @@ const Header = () => {
         { name: "Statistics", path: "/statistics" },
     ];
 
-    const handleSignOut = async() => {
+    const handleSignOut = async () => {
         try {
             const result = await axios.get(signOutRoute)
             if (result.status === 200) {
@@ -58,8 +59,8 @@ const Header = () => {
                     }
                 >
                     <DropdownHeader>
-                        <span className="block text-sm">Bonnie Green</span>
-                        <span className="block truncate text-sm font-medium">name@flowbite.com</span>
+                        <span className="block text-sm">{currentUser && currentUser.firstName} {currentUser && currentUser.lastName}</span>
+                        <span className="block truncate text-sm font-medium">{currentUser && currentUser.email}</span>
                     </DropdownHeader>
                     <DropdownItem>Dashboard</DropdownItem>
                     <DropdownItem>Settings</DropdownItem>
@@ -71,14 +72,14 @@ const Header = () => {
             <NavbarCollapse>
                 {links.map((link) => (
                     <NavbarLink
-                    key={link.path}
-                    href={link.path}
-                    active={location.pathname === link.path}
-                    onClick={(e) => {
+                        key={link.path}
+                        href={link.path}
+                        active={location.pathname === link.path}
+                        onClick={(e) => {
                             e.preventDefault();
                             navigate(link.path);
                         }}
-                        >
+                    >
                         {link.name}
                     </NavbarLink>
                 ))}

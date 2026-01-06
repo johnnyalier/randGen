@@ -7,19 +7,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSlice'
 
 const Login = () => {
-  	const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    })
-    const {loading, error: errorMessage} = useSelector(state => state.user)
+	const [formData, setFormData] = useState({
+		email: '',
+		password: '',
+	})
+	const { loading, error: errorMessage } = useSelector(state => state.user)
 	const [isChecked, setIsChecked] = useState(false);
 
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+	const navigate = useNavigate()
+	const dispatch = useDispatch()
 
-    const handleChange = (e) => {
-        setFormData({...formData, [e.target.id]: e.target.value })
-    }
+	const handleChange = (e) => {
+		setFormData({ ...formData, [e.target.id]: e.target.value })
+	}
 
 	const handleCheckboxChange = (event) => {
 		setIsChecked(event.target.checked);
@@ -27,33 +27,33 @@ const Login = () => {
 	};
 
 	const handleSubmit = async (e) => {
-        e.preventDefault()
+		e.preventDefault()
 
-        if (!formData.email || !formData.password) {
-            return dispatch(signInFailure('Please fill out all fields.'));
-        }
+		if (!formData.email || !formData.password) {
+			return dispatch(signInFailure('Please fill out all fields.'));
+		}
 
-        try {
-            dispatch(signInStart())
-            const result = await axios.post(signInRoute, {
-                ...formData
-            })
-            console.log(result.data)
+		try {
+			dispatch(signInStart())
+			const result = await axios.post(signInRoute, {
+				...formData
+			})
+			console.log(result.data)
 
-            if (result.status === 200){
-                dispatch(signInSuccess(result.data))
-                navigate('/')
-            } else {
-                dispatch(signInFailure(result.data.message))
-            }
-        } catch (error) {
-            dispatch(signInFailure(error.message))
-        }
-    }
+			if (result.status === 200) {
+				dispatch(signInSuccess(result.data))
+				navigate('/')
+			} else {
+				dispatch(signInFailure(result.data.message))
+			}
+		} catch (error) {
+			dispatch(signInFailure(error.message))
+		}
+	}
 
-  	return (
+	return (
 		<div className="flex flex-col justify-center items-center mt-10">
-			<Card className="max-w-md">
+			<Card className="w-full max-w-lg bg-transparent">
 				<h1 className="text-3xl font-bold text-center mb-5">Login and have Fun</h1>
 				<form className="flex flex-col gap-4" onSubmit={handleSubmit}>
 					<div>
@@ -69,28 +69,28 @@ const Login = () => {
 						<TextInput id="password" type="password" required onChange={handleChange} />
 					</div>
 					<div>
-                        <Label htmlFor="login">
-                            Don&rsquo;t have an account?&nbsp;
-                            <Link to="/signup" className="text-cyan-600 hover:underline dark:text-cyan-500">
-                                Create account
-                            </Link>
-                        </Label>
-                    </div>
+						<Label htmlFor="login">
+							Don&rsquo;t have an account?&nbsp;
+							<Link to="/signup" className="text-indigo-950 hover:underline dark:text-indigo-950">
+								Create account
+							</Link>
+						</Label>
+					</div>
 					<div className="flex items-center gap-2">
-						<Checkbox 
-							id="agree" 
+						<Checkbox
+							id="agree"
 							checked={isChecked}
 							onChange={handleCheckboxChange}
 						/>
 						<Label htmlFor="agree" className="flex">
 							I agree with the&nbsp;
-							<Link href="#" className="text-cyan-600 hover:underline dark:text-cyan-500">
+							<Link href="#" className="text-indigo-950 hover:underline dark:text-indigo-950">
 								terms and conditions
 							</Link>
 						</Label>
 					</div>
 					<Button type="submit" disabled={loading || !isChecked}>
-						{loading? (
+						{loading ? (
 							<>
 								<Spinner size='sm' />
 								<span>Loading...</span>
@@ -105,7 +105,7 @@ const Login = () => {
 				)}
 			</Card>
 		</div>
-  );
+	);
 }
 
 export default Login;
